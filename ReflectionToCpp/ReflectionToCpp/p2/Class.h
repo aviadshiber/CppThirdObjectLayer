@@ -2,6 +2,9 @@
 #define CLASS_H_
 #include <string>
 #include "Object.h"
+#include "Field.h"
+#include <list>
+#include "Method.h"
 
 
 class Class{

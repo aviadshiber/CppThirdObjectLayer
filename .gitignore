@@ -30,3 +30,9 @@
 *.exe
 *.out
 *.app
+/ReflectionToCpp/ReflectionToCpp.VC.VC.opendb
+/ReflectionToCpp/ReflectionToCpp.VC.db
+/ReflectionToCpp/ReflectionToCpp/~AutoRecover.ReflectionToCpp.vcxproj
+/ReflectionToCpp/ReflectionToCpp/ReflectionToCpp.vcxproj.user
+/ReflectionToCpp/ReflectionToCpp/ReflectionToCpp.vcxproj.filters
+/ReflectionToCpp/ReflectionToCpp/ReflectionToCpp.vcxproj

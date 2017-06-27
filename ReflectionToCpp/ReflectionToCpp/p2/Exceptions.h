@@ -16,6 +16,7 @@ class MethodNotFound : public std::exception{};
 
 class TypeError : public std::exception{};
 
+class ClassNotFound : public std::exception{};
 
 
 

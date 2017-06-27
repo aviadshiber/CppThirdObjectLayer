@@ -3,14 +3,15 @@
 #define FIELD_H_
 #include "Exceptions.h"
 #include <string>
+#include "Member.h"
 
 class Object;
 
-class Field  {
-private:
+class Field:public Member {
 
+	
 public:
-	Field(std::string name, std::string className, Type t, bool isStatic);
+	Field( std::string name , std::string className , Type t , bool isStatic ) :Member( name , className,PRIVATE ),fieldType(t),staticField(isStatic){}
 
 	Type getType();
 	
@@ -21,10 +22,9 @@ public:
 	void setObj(Object* obj, Object* value);
 
 	Object* getObj(Object* obj);
-
-	std::string getDeclaringClass() const;
-	
-	std::string name() const;
+private:
+	Type fieldType;
+	bool staticField;
 
 	
 };

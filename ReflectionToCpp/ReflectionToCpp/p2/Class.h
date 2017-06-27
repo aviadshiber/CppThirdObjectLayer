@@ -1,18 +1,18 @@
 #ifndef CLASS_H_
 #define CLASS_H_
-#include <string>
 #include "Object.h"
 #include "Field.h"
 #include <list>
 #include "Method.h"
+#include "ClassDS.h"
+#include <regex>
 
 
 class Class{
 
-private:
 public:
 	Class(Class* c, const std::string& name);
-		
+
 	Class* getSuperClass();
 	
 	Object* newInstance();
@@ -43,6 +43,18 @@ public:
 
 	static void setAccessible(bool flag);
 
+	static Class* forName( std::string name );
+private:
+	static bool isAccessibleClass = false;
+	static ClassMap classMap=ClassMap();
+	Class* parent;
+	std::string className;
+	//map of name->member
+	MemberMap members;
+	//map of name->static fields
+	FieldMap staticFields;
+	std::vector<Object*> classInstances;
+	
 
 };
 

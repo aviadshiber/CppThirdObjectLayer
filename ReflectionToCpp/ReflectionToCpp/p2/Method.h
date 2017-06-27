@@ -7,20 +7,18 @@
 
 typedef void(*Func)(Object*);
 
-class Method{
-private:
-
+class Method :public Member{
 
 public:
-
-	std::string getDeclaringClass() const;
-
-	Method(std::string name,std::string className,Func f);
+	
+	Method( std::string name , std::string className , Func f ) :Member( name , className , PUBLIC ),function(f) {}
 
 	virtual void invoke(Object* const obj);
-	
-	std::string name() const;
 
+	virtual ~Method() = default;
+private:
+	std::string methodName;
+	Func function;
 };
 
 

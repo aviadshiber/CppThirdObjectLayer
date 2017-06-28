@@ -11,7 +11,7 @@ class Field:public Member {
 
 	
 public:
-	Field( std::string name , std::string className , Type t , bool isStatic ) :Member( name , className,PRIVATE ),fieldType(t),staticField(isStatic){}
+	Field(std::string name, std::string className, Type t, bool isStatic);
 
 	Type getType();
 	
@@ -22,6 +22,8 @@ public:
 	void setObj(Object* obj, Object* value);
 
 	Object* getObj(Object* obj);
+
+	bool isStatic() const;
 private:
 	Type fieldType;
 	bool staticField;

@@ -41,29 +41,35 @@ public:
 	
 	std::string name() const;
 
+	~Class();
+
 	static void setAccessible(bool flag);
 
 	static Class* forName( std::string name );
 private:
-	static bool isAccessibleClass = false;
-	static ClassMap classMap=ClassMap();
 	Class* parent;
 	std::string className;
 	//map of name->member
 	MemberMap members;
-	//map of name->static fields
-	FieldMap staticFields;
 	std::vector<Object*> classInstances;
-public:
-	//generic lookups 
+	static bool isAccessibleClass;
+	static ClassMap classMap;
+
+	void addMember(std::string name, Member* member);
+
+	//generic lookups for all members
 	template<typename MEMBER>
 	std::list<MEMBER> getMembersOfType() {
+		Class* currentClass = this;
 		std::list<MEMBER> list;
-		for ( auto it = members.begin(); it != members.end(); ++it ) {
-			Member* member = it->second;
-			if ( instanceof<MEMBER>( member ) ) {
-				MEMBER * method = static_cast<MEMBER*>( member );
-				list.push_back( *method );
+		while ( nullptr != currentClass ) {
+			for ( auto it = currentClass->members.begin(); it != currentClass->members.end(); ++it ) {
+				Member* member = it->second;
+				if ( instanceof<MEMBER>( member ) ) {
+					MEMBER * method = static_cast< MEMBER* >( member );
+					list.push_back( *method );
+				}
+				currentClass = currentClass->getSuperClass();
 			}
 		}
 		return list;

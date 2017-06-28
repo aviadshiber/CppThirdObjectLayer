@@ -1,7 +1,7 @@
 #include "Class.h"
 
 
-Class::Class(Class* c, const std::string& name): parent(c), className(name), members(), staticFields(), classInstances() {
+Class::Class(Class* c, const std::string& name): parent(c), className(name), members(), classInstances() {
 	ClassMapPair pair(name, this);
 	classMap.insert(pair);
 }
@@ -16,16 +16,41 @@ Object* Class::newInstance() {
 
 void Class::addMethod(std::string name, Func func) {
 	Method* newMethod = new Method(name, this->name(), func);
-	ClassMemberPair pair(name, newMethod);
+	addMember(name, newMethod);
+}
+
+void Class::addInstanceField(std::string name, Type t) {
+	Field* field = new Field(name, this->name(), t, false);
+	addMember(name, field);
+}
+
+void Class::addStaticField(std::string name, Type t) {
+	Field* field = new Field(name, this->name(), t, true);
+	addMember(name, field);
+}
+
+void Class::addMember(std::string name, Member* member) {
+	ClassMemberPair pair(name, member);
 	members.insert(pair);
 }
 
-void Class::addInstanceField( std::string name , Type t )
-{
-	
-}
 
 std::string Class::name() const { return this->className; }
+
+Class::~Class() {
+	//removing all members
+	for (auto it = members.begin(); it != members.end(); ++it)
+	{
+		Member* member = it->second;
+		delete member;
+	}
+	//removing all class instances
+	for (auto it = classInstances.begin(); it != classInstances.end(); ++it)
+	{
+		Object* obj = *it;
+		delete obj;
+	}
+}
 
 void Class::setAccessible(bool flag) { isAccessibleClass = flag; }
 
@@ -34,21 +59,11 @@ Class* Class::forName(std::string name) {
 	return iterator_result == classMap.end() ? throw ClassNotFound() : iterator_result->second;
 }
 
-Field Class::getField( std::string name )
-{
-	return *getMember<Field , FieldNotFound>(name);
-}
 
-std::list<Field> Class::getFields()
-{
-	return getMembersOfType<Field>();
-}
+Field Class::getField(std::string name) { return *getMember<Field, FieldNotFound>(name); }
 
-Method Class::getMethod(std::string name) {
-	return *getMember<Method,MethodNotFound>(name);
-}
+std::list<Field> Class::getFields() { return getMembersOfType<Field>(); }
 
-std::list<Method> Class::getMethods(){
-	return getMembersOfType<Method>();
-}
+Method Class::getMethod(std::string name) { return *getMember<Method, MethodNotFound>(name); }
 
+std::list<Method> Class::getMethods() { return getMembersOfType<Method>(); }

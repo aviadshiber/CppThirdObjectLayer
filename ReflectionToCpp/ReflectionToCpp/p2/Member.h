@@ -15,8 +15,10 @@ public:
 	virtual std::string name() const;
 	virtual std::string getDeclaringClass() const;
 
-private:
+
+protected:
 	Privacy privacy;
+private:
 	std::string memberName;
 	std::string className;
 

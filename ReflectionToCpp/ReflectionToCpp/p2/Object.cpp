@@ -4,12 +4,15 @@
 Object::Object(Class* creator) {
 	this->klass = creator;
 	FieldList fieldsList = creator->getFields();
-	//copy the fields of the creator until this point.
+	//copy the fields of the creator until this point( that are not static)
 	for (FieldList::iterator it = fieldsList.begin(); it != fieldsList.end(); ++it)
 	{
-		Field* copy = new Field(*it);
-		FieldMapPair pair(it->name(), copy);
-		fields.insert(pair);
+		if ( !it->isStatic() ) {
+			Field* copy = new Field( *it );
+			FieldMapPair pair( it->name() , copy );
+			fields.insert( pair );
+		}
+		
 	}
 }
 

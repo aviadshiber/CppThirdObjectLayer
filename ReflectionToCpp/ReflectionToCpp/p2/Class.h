@@ -24,6 +24,8 @@ public:
 
 	Field getField(std::string name);
 
+	Field* getOriginalField( std::string name );
+
 	std::list<Field> getFields();
 
 	std::list<Field> getStaticFields();

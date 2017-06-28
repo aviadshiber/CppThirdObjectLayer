@@ -12,8 +12,9 @@ public:
 	Object() = default;
 	explicit Object( Class* creator );
 
-	Class* getClass();
+	Class* getClass() const;
 
+	
 	int getInt(std::string name);
 
 	void setInt(std::string name, int value);
@@ -24,14 +25,9 @@ public:
 
 	virtual void invokeMethod(std::string name);
 
-	/**
-	 * \brief check if c is an instance of the class c.
-	 * \param c 
-	 * \return 
-	 */
-	bool isInstanceOf(std::string c);
+	bool isInstanceOf(std::string c) const;
 	
-	bool isKindOf(std::string c);
+	bool isKindOf(std::string c) const;
 
 	bool isAccessible() const {return this->klass->isAccessible();}
 
@@ -39,6 +35,9 @@ public:
 private:
 	Class* klass;
 	FieldMap fields;
+
+
+	Field* findField(const std::string& name);
 };
 
 #endif /* OBJECT_H_ */

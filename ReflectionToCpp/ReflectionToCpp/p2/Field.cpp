@@ -10,6 +10,7 @@ Type Field::getType() const {
 
 void Field::validateField(Object* obj,Type t) const {
 	if ( fieldType != t ) { throw TypeError(); }
+	if ( !obj->isKindOf( getDeclaringClass() )  ) { throw FieldNotFound(); }
 	if ( !obj->isAccessible() && privacy != PUBLIC ) { throw FieldNotAccessible(); }
 }
 

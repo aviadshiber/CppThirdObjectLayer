@@ -61,7 +61,8 @@ Class* Class::forName(std::string name) {
 }
 
 
-Field Class::getField(std::string name) { return *getMember<Field, FieldNotFound>(name); }
+Field Class::getField( std::string name ) { return *getOriginalField( name ); }
+Field* Class::getOriginalField(std::string name) {return getMember<Field , FieldNotFound>( name );}
 
 std::list<Field> Class::getFields() { return getMembersOfType<Field>(); }
 std::list<Field> Class::getStaticFields() {

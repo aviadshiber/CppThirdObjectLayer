@@ -20,6 +20,11 @@ void Class::addMethod(std::string name, Func func) {
 	members.insert(pair);
 }
 
+void Class::addInstanceField( std::string name , Type t )
+{
+	
+}
+
 std::string Class::name() const { return this->className; }
 
 void Class::setAccessible(bool flag) { isAccessibleClass = flag; }
@@ -29,25 +34,21 @@ Class* Class::forName(std::string name) {
 	return iterator_result == classMap.end() ? throw ClassNotFound() : iterator_result->second;
 }
 
-Method Class::getMethod(std::string name) {
-	Member* member = nullptr;
-
-	Class* currentClass = this;
-	while (currentClass != nullptr)
-	{
-		MemberMap::iterator iterator_result = currentClass->members.find(name);
-		if (iterator_result == members.end()) { currentClass = currentClass->getSuperClass(); }
-		else{
-			member = iterator_result->second;
-			break;
-		}
-	}
-
-	if (currentClass != nullptr && instanceof<Method>(member))
-	{
-		Method* method = static_cast<Method*>(member);
-		return *method;
-	}
-
-	throw MethodNotFound();
+Field Class::getField( std::string name )
+{
+	return *getMember<Field , FieldNotFound>(name);
 }
+
+std::list<Field> Class::getFields()
+{
+	return getMembersOfType<Field>();
+}
+
+Method Class::getMethod(std::string name) {
+	return *getMember<Method,MethodNotFound>(name);
+}
+
+std::list<Method> Class::getMethods(){
+	return getMembersOfType<Method>();
+}
+

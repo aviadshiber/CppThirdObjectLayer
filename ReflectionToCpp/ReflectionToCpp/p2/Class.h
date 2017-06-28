@@ -5,7 +5,6 @@
 #include <list>
 #include "Method.h"
 #include "ClassDS.h"
-#include <regex>
 
 
 class Class{
@@ -13,7 +12,7 @@ class Class{
 public:
 	Class(Class* c, const std::string& name);
 
-	Class* getSuperClass();
+	Class* getSuperClass() const;
 	
 	Object* newInstance();
 
@@ -26,6 +25,8 @@ public:
 	Field getField(std::string name);
 
 	std::list<Field> getFields();
+
+	std::list<Field> getStaticFields();
 
 	Method getMethod(std::string name);
 
@@ -44,6 +45,8 @@ public:
 	~Class();
 
 	static void setAccessible(bool flag);
+
+	static bool isAccessible();
 
 	static Class* forName( std::string name );
 private:
@@ -82,7 +85,7 @@ private:
 		while ( currentClass != nullptr )
 		{
 			MemberMap::iterator iterator_result = currentClass->members.find( name );
-			if ( iterator_result == members.end() ) { currentClass = currentClass->getSuperClass(); }
+			if ( iterator_result == currentClass->members.end() ) { currentClass = currentClass->getSuperClass(); }
 			else {
 				member = iterator_result->second;
 				break;

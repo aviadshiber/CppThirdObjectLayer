@@ -3,14 +3,14 @@
 #include<string>
 #include "Class.h"
 class Class;
-
+/**
+ * The object class describe an object in this world.
+ * The Class is the factory of that Object.
+ */
 class Object {
-private:
-	Class* klass;
-	FieldMap fields;
 public:
 	Object() = default;
-	Object( Class* creator );
+	explicit Object( Class* creator );
 
 	Class* getClass();
 
@@ -24,12 +24,21 @@ public:
 
 	virtual void invokeMethod(std::string name);
 
+	/**
+	 * \brief check if c is an instance of the class c.
+	 * \param c 
+	 * \return 
+	 */
 	bool isInstanceOf(std::string c);
 	
 	bool isKindOf(std::string c);
 
-	virtual ~Object();
+	bool isAccessible() const {return this->klass->isAccessible();}
 
+	virtual ~Object();
+private:
+	Class* klass;
+	FieldMap fields;
 };
 
 #endif /* OBJECT_H_ */

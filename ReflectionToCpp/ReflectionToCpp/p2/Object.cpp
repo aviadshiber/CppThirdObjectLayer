@@ -36,6 +36,10 @@ bool Object::isKindOf(std::string c) {
 	return c == name;
 }
 
+Class* Object::getClass() {
+	return this->klass;
+}
+
 Object::~Object() {
 	for (auto it = fields.begin(); it != fields.end(); ++it){
 		Field* fieldToFree = it->second;

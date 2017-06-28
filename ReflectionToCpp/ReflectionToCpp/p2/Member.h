@@ -3,14 +3,16 @@
 #include <string>
 
 
-
+/**
+ * An abstract class that describe the members of a class.
+ */
 class Member {
 public:
 	enum Privacy { PUBLIC , PRIVATE , PROTECTED };
 
 	Member( const std::string & member_name , const std::string & class_name , Privacy p=PRIVATE );
-
-	virtual ~Member();
+	//Member is an abstract Class so we make the destractor pure virtual
+	virtual ~Member() = 0;
 
 	virtual std::string name() const;
 	virtual std::string getDeclaringClass() const;

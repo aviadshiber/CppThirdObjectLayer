@@ -19,7 +19,7 @@ public:
 	void setInt(Object* obj, int value);
 
 	int getInt(Object* obj) const;
-	
+
 	void setObj(Object* obj, Object* value);
 
 	Object* getObj(Object* obj) const;

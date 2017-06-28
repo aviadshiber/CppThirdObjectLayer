@@ -7,40 +7,107 @@
 #include "ClassDS.h"
 
 
-class Class{
+class Class:public Object{
 
 public:
-	Class(Class* c, const std::string& name);
+	/**
+	 * \brief creates a new class with a name.
+	 * \param c the super class of that class.
+	 * \param name the name of the class.
+	 */
+	Class( Class* c , const std::string& name );
 
+	/**
+	 * \brief get the super class.
+	 * \return the super class.
+	 */
 	Class* getSuperClass() const;
 	
+	/**
+	 * \brief create a new instance of that class.
+	 * \return the new object that was created.
+	 */
 	Object* newInstance();
 
+	/**
+	 * \brief adds a new method to the class.
+	 * \param name the name of the new method. 
+	 * \param func a function pointer to the function.
+	 */
 	void addMethod(std::string name, Func func);
 	
+	/**
+	 * \brief add a field to the class (instance field).
+	 * \param name the name of the field
+	 * \param t the type of the field.
+	 */
 	void addInstanceField(std::string name, Type t);
 
+
+	/**
+	 * \brief add a static field to the class (class instance).
+	 * \param name the name of the static field.
+	 * \param t the type of the field.
+	 */
 	void addStaticField(std::string name, Type t);
 
+	/**
+	 * \brief get the field with the name.
+	 * \param name the name of the field.
+	 * \return a copy of the field . if no field was found FieldNotFound exception will be thrown.
+	 */
 	Field getField(std::string name);
 
+	/**
+	 * \brief get the field with the name.
+	 * \param name the name of the field.
+	 * \return the original field that was found. if no field was found FieldNotFound exception will be thrown.
+	 */
 	Field* getOriginalField( std::string name );
 
+	/**
+	 * \brief the all the fields of the class (and all the fields from inherited classes)
+	 * \return a list of all the fields of the class.
+	 */
 	std::list<Field> getFields();
 
+	/**
+	 * \brief all the static fields of the class (and all the static fields from inherited classes).
+	 * \return a list of all the static fields of the class.
+	 */
 	std::list<Field> getStaticFields();
 
+	/**
+	 * \brief get a method with the name from the class (or from the classes which this class inherit from)
+	 * \param name the name of the method.
+	 * \return the method that was found. if no such method was found a MethodNotFound exception will be thrown.
+	 */
 	Method getMethod(std::string name);
 
+	/**
+	 * \brief retrive all the methods in the class  (and all the methods from inherited classes).
+	 * \return a list of all the methods.
+	 */
 	std::list<Method> getMethods();
 
-	int getInt(std::string name);
+	
+	/**
+	 * \brief the the int value of a static field.
+	 * \param name the name of the field.
+	 * \return the integer value of the field. if no such field exist FieldNotFound exception will be thrown.
+	 */
+	int getInt(std::string name) override;
 
-	void setInt(std::string name, int value);
+	/**
+	 * \brief set the int value of a static field.
+	 * \param name the name of the field.
+	 * \param value the integer value of the field. if no such field exist FieldNotFound exception will be thrown.
+	 */
+	void setInt(std::string name, int value) override;
 
-	Object* getObj(std::string name);
+	Object* getObj(std::string name) override;
 
-	void setObj(std::string name, Object* value);
+	void setObj(std::string name, Object* value) override;
 	
 	std::string name() const;
 
@@ -102,6 +169,8 @@ private:
 
 		throw MEMBER_NOT_FOUND_EXCEPTION();
 	}
+
+	Field* fetchClassField( const std::string& fieldName );
 
 };
 

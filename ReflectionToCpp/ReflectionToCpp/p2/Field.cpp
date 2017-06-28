@@ -1,7 +1,8 @@
 #include "Field.h"
 
-Field::Field(std::string name, std::string className, Type t, bool isStatic): Member(name, className, PRIVATE), fieldType(t), staticField(isStatic) {
+Field::Field(std::string name, std::string className, Type t, bool isStatic): Member(name, className, PRIVATE), fieldType(t), staticField(isStatic) ,fieldValue(){
 	if (staticField) { privacy = PUBLIC; }
+	fieldValue.number = 0; //same as NULL to object
 }
 
 Type Field::getType() const {
@@ -18,6 +19,7 @@ void Field::setInt( Object * obj , int value ){
 	validateField( obj ,INT);
 	fieldValue.number = value;
 }
+
 
 int Field::getInt(Object* obj) const {
 	validateField( obj,INT );

@@ -1,7 +1,7 @@
 #include "Class.h"
 
 
-Class::Class(Class* c, const std::string& name): parent(c), className(name), members(), classInstances() {
+Class::Class(Class* c, const std::string& name): Object(nullptr), parent(c), className(name), members(), classInstances() {
 	ClassMapPair pair(name, this);
 	classMap.insert(pair);
 }
@@ -34,7 +34,6 @@ void Class::addMember(std::string name, Member* member) {
 	members.insert(pair);
 }
 
-
 std::string Class::name() const { return this->className; }
 
 Class::~Class() {
@@ -61,20 +60,15 @@ Class* Class::forName(std::string name) {
 }
 
 
-Field Class::getField( std::string name ) { return *getOriginalField( name ); }
-Field* Class::getOriginalField(std::string name) {return getMember<Field , FieldNotFound>( name );}
+Field Class::getField(std::string name) { return *getOriginalField(name); }
+Field* Class::getOriginalField(std::string name) { return getMember<Field, FieldNotFound>(name); }
 
 std::list<Field> Class::getFields() { return getMembersOfType<Field>(); }
+
 std::list<Field> Class::getStaticFields() {
 	std::list<Field> staticFields;
 	std::list<Field> allFields = getFields();
-	for(auto it=allFields.begin(); it!=allFields.end();++it )
-	{
-		if ( it->isStatic() ){
-			staticFields.push_back( *it );
-		}
-			
-	}
+	for (auto it = allFields.begin(); it != allFields.end(); ++it) { if (it->isStatic()) { staticFields.push_back(*it); } }
 	return staticFields;
 }
 
@@ -82,17 +76,30 @@ Method Class::getMethod(std::string name) { return *getMember<Method, MethodNotF
 
 std::list<Method> Class::getMethods() { return getMembersOfType<Method>(); }
 
-int Class::getInt( std::string name )
-{
-	Field field=getField( name );
-	//all get and sets are in Class are on static fields only!
-	if(!field.isStatic() ){throw FieldNotFound();}
-
-	//TODO: SET THE FIELD
-
-	return 0;
+int Class::getInt(std::string name) {
+	Field* field = fetchClassField(name);
+	return field->getInt(this);
 }
 
+void Class::setInt(std::string name, int value) {
+	Field* field = fetchClassField(name);
+	field->setInt(this, value);
+}
 
+Object* Class::getObj(std::string name) {
+	Field* field = fetchClassField(name);
+	return field->getObj(this);
+}
 
+void Class::setObj(std::string name, Object* value) {
+	Field* field = fetchClassField(name);
+	field->setObj(this, value);
+}
 
+Field* Class::fetchClassField(const std::string& fieldName) {
+	Field* field = getOriginalField(fieldName);
+	//Class feilds are fields that are static. 
+	//if we found a field that can be setted/getted from class that is not static it means it is taken by non-static and should be considered as not found
+	if (!field->isStatic()) { throw FieldNotFound(); }
+	return field;
+}

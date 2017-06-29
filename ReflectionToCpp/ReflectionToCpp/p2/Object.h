@@ -3,9 +3,14 @@
 
 class Class;
 class Field;
+class Object;
 #include<string>
-#include "ClassDS.h"
+#include <unordered_map>
 #include "Class.h"
+
+typedef std::unordered_map< std::string , Field* >  FieldMap;
+typedef std::pair< std::string , Field* >  FieldMapPair;
+typedef std::list< Field > FieldList;
 
 /**
  * The object class describe an object in this world.

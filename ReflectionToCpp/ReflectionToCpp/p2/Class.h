@@ -1,14 +1,22 @@
 #ifndef CLASS_H_
 #define CLASS_H_
+#include <unordered_map>
 
 
 class Class;
+
 
 #include <string>
 #include "Object.h"
 #include "Method.h"
 #include "Field.h"
-#include "ClassDS.h"
+
+
+typedef std::unordered_map< std::string , Member* > MemberMap;
+typedef std::unordered_map< std::string , Class* > ClassMap;
+typedef std::pair< std::string , Member* > ClassMemberPair;
+typedef std::pair< std::string , Class* > ClassMapPair;
+
 
 class Class {
 
@@ -146,6 +154,13 @@ private:
 	static ClassMap classMap;
 
 	void addMember(std::string name, Member* member);
+
+
+	template<typename DYNAMIC_TYPE , typename STATIC_TYPE>
+	static bool instanceof( const STATIC_TYPE *ptr ) {
+		return dynamic_cast<const DYNAMIC_TYPE*>( ptr ) != nullptr;
+	}
+
 
 	//generic lookups for all members
 	template <typename MEMBER>

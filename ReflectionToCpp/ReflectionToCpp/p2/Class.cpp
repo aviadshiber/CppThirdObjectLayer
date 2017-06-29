@@ -1,5 +1,6 @@
 #include "Class.h"
 
+ClassMap Class::classMap;
 bool Class::isAccessibleClass = false;
 
 Class::Class(Class* c, const std::string& name):parent(c), className(name), members(), classInstances() {

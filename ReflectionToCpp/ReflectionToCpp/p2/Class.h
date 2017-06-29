@@ -195,7 +195,7 @@ private:
 
 	Field* fetchClassField(const std::string& fieldName);
 
-	void updateInstancesAccess();
+	void updateInstancesAccess(bool flag);
 };
 
 #endif /* CLASS_H_ */

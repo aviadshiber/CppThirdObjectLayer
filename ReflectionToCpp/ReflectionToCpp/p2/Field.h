@@ -17,16 +17,16 @@ public:
 	Type getType() const;
 	
 	void setInt(Object* obj, int value);
-	void setInt( Class* obj , int value );
+	void setInt( Class* clazz , int value );
 
 	int getInt(Object* obj) const;
-	int getInt( Class* obj ) const;
+	int getInt( Class* clazz ) const;
 
 	void setObj(Object* obj, Object* value);
-	void setObj( Class* obj , Object* value );
+	void setObj( Class* clazz , Object* value );
 
 	Object* getObj(Object* obj) const;
-	Object* getObj( Class* obj ) const;
+	Object* getObj( Class* clazz ) const;
 
 	bool isStatic() const;
 
@@ -43,6 +43,7 @@ private:
 	}fieldValue;
 	Object* instance;
 	void validateField( Object* obj , Type t ) const;
+	void validateStaticField(Type t) const;
 };
 
 #endif /* FIELD_H_ */

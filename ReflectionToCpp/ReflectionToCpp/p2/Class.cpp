@@ -58,7 +58,7 @@ void Class::setAccessible(bool flag) {
 	isAccessibleClass = flag;
 	for(auto it=classMap.begin(); it!=classMap.end(); ++it ){
 		Class* currentClass = it->second;
-		
+		currentClass->updateInstancesAccess( flag );
 	}
 }
 bool Class::isAccessible() { return isAccessibleClass; }
@@ -115,8 +115,9 @@ Field* Class::fetchClassField(const std::string& fieldName) {
 	return field;
 }
 
-void Class::updateInstancesAccess() {
-	/*for ( auto it = this->classInstances.begin(); it != classInstances.end(); ++it ){
-	    
-	}*/
+void Class::updateInstancesAccess(bool flag) {
+	for ( auto it = this->classInstances.begin(); it != classInstances.end(); ++it ){
+		Object* obj = *it;
+		obj->canAccess = flag;
+	}
 }

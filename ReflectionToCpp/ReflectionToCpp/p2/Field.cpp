@@ -18,14 +18,18 @@ void Field::validateField(Object* obj,Type t) const {
 	if ( this->instance != nullptr && obj != this->instance ) { throw FieldNotAccessible(); }
 }
 
+
+
+
 void Field::setInt( Object * obj , int value ){
 	validateField( obj ,INT);
 	fieldValue.number = value;
 }
 
-void Field::setInt( Class * obj , int value )
+void Field::setInt( Class * clazz , int value )
 {
-	//TODO:
+	validateStaticField( INT );
+	fieldValue.number = value;
 }
 
 
@@ -34,10 +38,10 @@ int Field::getInt(Object* obj) const {
 	return fieldValue.number;
 }
 
-int Field::getInt( Class * obj ) const
+int Field::getInt( Class * clazz ) const
 {
-	//TODO:
-	return 0;
+	validateStaticField( INT );
+	return fieldValue.number;
 }
 
 void Field::setObj( Object * obj , Object * value )
@@ -46,9 +50,10 @@ void Field::setObj( Object * obj , Object * value )
 	fieldValue.object = value;
 }
 
-void Field::setObj( Class * obj , Object * value )
+void Field::setObj( Class * clazz , Object * value )
 {
-	//TODO:
+	validateStaticField( OBJECT );
+	fieldValue.object = value;
 }
 
 Object * Field::getObj( Object * obj ) const {
@@ -56,10 +61,10 @@ Object * Field::getObj( Object * obj ) const {
 	return fieldValue.object;
 }
 
-Object * Field::getObj( Class * obj ) const
+Object * Field::getObj( Class * clazz ) const
 {
-	//TODO:
-	return nullptr;
+	validateStaticField( OBJECT );
+	return fieldValue.object;
 }
 
 bool Field::isStatic() const {
@@ -73,3 +78,6 @@ Field* Field::setInstanceToField(Object* obj) {
 }
 
 
+void Field::validateStaticField( Type t) const {
+	if ( fieldType != t ) { throw TypeError(); }
+}

@@ -39,8 +39,10 @@ Field* Object::findField(const std::string& name) {
 }
 
 void Object::invokeMethod(std::string name) {
+	this->canAccess = true;
 	Method method = getClass()->getMethod(name);
 	method.invoke(this);
+	this->canAccess = getClass()->isAccessible();
 }
 
 bool Object::isInstanceOf(std::string c) const {

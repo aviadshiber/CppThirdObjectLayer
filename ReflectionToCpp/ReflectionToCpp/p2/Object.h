@@ -12,6 +12,7 @@ class Field;
  * The Class is the factory of that Object.
  */
 class Object {
+	friend class Class;
 public:
 	Object() = default;
 	/**
@@ -95,6 +96,7 @@ private:
 	 * \return the original field that was created in that object or class(if static).
 	 */
 	Field* findField(const std::string& name);
+	
 };
 
 #endif /* OBJECT_H_ */

@@ -5,12 +5,14 @@ Object::Object(Class* creator):klass(creator),fields() {
 	if ( creator != nullptr ) {
 		FieldList fieldsList = creator->getFields();
 		//copy the fields of the creator until this point( that are not static)
-		for ( FieldList::iterator it = fieldsList.begin(); it != fieldsList.end(); ++it ) {
-			if ( !it->isStatic() ) {
-				Field* copy = new Field( *it );
-				copy->setInstanceToField( this );
-				FieldMapPair pair( it->name() , copy );
-				fields.insert( pair );
+		if ( fieldsList.size() > 0 ) {
+			for ( FieldList::iterator it = fieldsList.begin(); it != fieldsList.end(); ++it ) {
+				if ( !it->isStatic() ) {
+					Field* copy = new Field( *it );
+					copy->setInstanceToField( this );
+					FieldMapPair pair( it->name() , copy );
+					fields.insert( pair );
+				}
 			}
 		}
 	}
@@ -57,16 +59,18 @@ bool Object::isKindOf(std::string c) const {
 
 	std::string name = parent->name();
 	while (c != name && parent != nullptr){
-		parent = parent->getSuperClass();
 		name = parent->name();
+		parent = parent->getSuperClass();
 	}
 	return c == name;
 }
 
 Object::~Object() {
-	for (auto it = fields.begin(); it != fields.end(); ++it){
-		Field* fieldToFree = it->second;
-		delete fieldToFree;
+	if ( fields.size() > 0 ) {
+		for ( auto it = fields.begin(); it != fields.end(); ++it ) {
+			Field* fieldToFree = it->second;
+			delete fieldToFree;
+		}
 	}
 }
 

@@ -169,18 +169,16 @@ private:
 	std::list<MEMBER> getMembersOfType() {
 		Class* currentClass = this;
 		std::list<MEMBER> list;
-		while (nullptr != currentClass)
-		{
-			for (auto it = currentClass->members.begin(); it != currentClass->members.end(); ++it)
-			{
+		while (nullptr != currentClass &&  currentClass->members.size()>0){
+
+			for (auto it = currentClass->members.begin(); it != currentClass->members.end(); ++it){
 				Member* member = it->second;
-				if (instanceof<MEMBER>(member))
-				{
+				if (instanceof<MEMBER>(member)){
 					MEMBER* method = static_cast<MEMBER*>(member);
 					list.push_back(*method);
 				}
-				currentClass = currentClass->getSuperClass();
 			}
+			currentClass = currentClass->getSuperClass();
 		}
 		return list;
 	}

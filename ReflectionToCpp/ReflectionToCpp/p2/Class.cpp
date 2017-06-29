@@ -44,16 +44,20 @@ std::string Class::name() const { return this->className; }
 
 Class::~Class() {
 	//removing all members
-	for (auto it = members.begin(); it != members.end(); ++it)
-	{
-		Member* member = it->second;
-		delete member;
+	if ( members.size() > 0 ) {
+		for ( auto it = members.begin(); it != members.end(); ++it )
+		{
+			Member* member = it->second;
+			delete member;
+		}
 	}
 	//removing all class instances
-	for (auto it = classInstances.begin(); it != classInstances.end(); ++it)
-	{
-		Object* obj = *it;
-		delete obj;
+	if ( classInstances.size() > 0 ) {
+		for ( auto it = classInstances.begin(); it != classInstances.end(); ++it )
+		{
+			Object* obj = *it;
+			delete obj;
+		}
 	}
 }
 
@@ -119,6 +123,7 @@ Field* Class::fetchClassField(const std::string& fieldName) {
 }
 
 void Class::updateInstancesAccess(bool flag) {
+	if ( classInstances.size() == 0 ) return;
 	for ( auto it = this->classInstances.begin(); it != classInstances.end(); ++it ){
 		Object* obj = *it;
 		obj->canAccess = flag;

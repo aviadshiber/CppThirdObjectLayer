@@ -26,7 +26,7 @@ void Field::setInt( Object * obj , int value ){
 	fieldValue.number = value;
 }
 
-void Field::setInt( Class * clazz , int value )
+void Field::setInt( int value )
 {
 	validateStaticField( INT );
 	fieldValue.number = value;
@@ -38,7 +38,7 @@ int Field::getInt(Object* obj) const {
 	return fieldValue.number;
 }
 
-int Field::getInt( Class * clazz ) const
+int Field::getInt(  ) const
 {
 	validateStaticField( INT );
 	return fieldValue.number;
@@ -50,7 +50,7 @@ void Field::setObj( Object * obj , Object * value )
 	fieldValue.object = value;
 }
 
-void Field::setObj( Class * clazz , Object * value )
+void Field::setObj( Object * value )
 {
 	validateStaticField( OBJECT );
 	fieldValue.object = value;
@@ -61,7 +61,7 @@ Object * Field::getObj( Object * obj ) const {
 	return fieldValue.object;
 }
 
-Object * Field::getObj( Class * clazz ) const
+Object * Field::getObj() const
 {
 	validateStaticField( OBJECT );
 	return fieldValue.object;

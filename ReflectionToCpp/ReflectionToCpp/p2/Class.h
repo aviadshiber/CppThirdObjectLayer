@@ -17,6 +17,8 @@ typedef std::unordered_map< std::string , Class* > ClassMap;
 typedef std::pair< std::string , Member* > ClassMemberPair;
 typedef std::pair< std::string , Class* > ClassMapPair;
 
+class ClassNotFound : public std::exception {};
+
 
 class Class {
 

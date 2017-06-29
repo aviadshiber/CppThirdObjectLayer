@@ -17,16 +17,16 @@ public:
 	Type getType() const;
 	
 	void setInt(Object* obj, int value);
-	void setInt( Class* clazz , int value );
+	void setInt(int value);
 
 	int getInt(Object* obj) const;
-	int getInt( Class* clazz ) const;
+	int getInt() const;
 
 	void setObj(Object* obj, Object* value);
-	void setObj( Class* clazz , Object* value );
+	void setObj(Object* value);
 
 	Object* getObj(Object* obj) const;
-	Object* getObj( Class* clazz ) const;
+	Object* getObj() const;
 
 	bool isStatic() const;
 

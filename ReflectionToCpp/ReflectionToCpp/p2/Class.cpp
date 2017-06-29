@@ -3,6 +3,8 @@
 ClassMap Class::classMap;
 bool Class::isAccessibleClass = false;
 
+
+
 Class::Class(Class* c, const std::string& name):parent(c), className(name), members(), classInstances() {
 	ClassMapPair pair(name, this);
 	classMap.insert(pair);
@@ -88,22 +90,22 @@ std::list<Method> Class::getMethods() { return getMembersOfType<Method>(); }
 
 int Class::getInt(std::string name) {
 	Field* field = fetchClassField(name);
-	return field->getInt(this);
+	return field->getInt();
 }
 
 void Class::setInt(std::string name, int value) {
 	Field* field = fetchClassField(name);
-	field->setInt(this, value);
+	field->setInt(value);
 }
 
 Object* Class::getObj(std::string name) {
 	Field* field = fetchClassField(name);
-	return field->getObj(this);
+	return field->getObj();
 }
 
 void Class::setObj(std::string name, Object* value) {
 	Field* field = fetchClassField(name);
-	field->setObj(this, value);
+	field->setObj(value);
 }
 
 

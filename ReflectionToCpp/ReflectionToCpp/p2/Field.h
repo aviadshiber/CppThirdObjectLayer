@@ -16,14 +16,14 @@ public:
 	Field(string name, string className, Type t, bool isStatic);
 	Type getType() const;
 	
-	void setInt(Object* obj, int value);
-	void setInt(int value);
+	void setInt(Object* obj, int value) const;
+	void setInt(int value) const;
 
 	int getInt(Object* obj) const;
 	int getInt() const;
 
-	void setObj(Object* obj, Object* value);
-	void setObj(Object* value);
+	void setObj(Object* obj, Object* value) const;
+	void setObj(Object* value) const;
 
 	Object* getObj(Object* obj) const;
 	Object* getObj() const;
@@ -34,13 +34,15 @@ public:
 
 	Field* setInstanceToField( Object* obj );
 
+	~Field();
+
 private:
 	Type fieldType;
 	bool staticField;
 	union Value { 
 	Object* object;
 	int number;
-	}fieldValue;
+	}*fieldValue;
 	Object* instance;
 	void validateField( Object* obj , Type t ) const;
 	void validateStaticField(Type t) const;

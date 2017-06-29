@@ -1,7 +1,8 @@
 #ifndef CLASS_H_
 #define CLASS_H_
 #include <unordered_map>
-
+#include <list>
+#include <vector>
 
 class Class;
 

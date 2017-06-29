@@ -5,6 +5,7 @@ class Class;
 class Field;
 class Object;
 #include<string>
+#include <list>
 #include <unordered_map>
 #include "Class.h"
 using namespace std;

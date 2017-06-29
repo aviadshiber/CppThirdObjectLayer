@@ -1,11 +1,13 @@
 #include "Member.h"
-#include "Class.h"
 
 
-Member::Member(const std::string& member_name, const std::string& class_name,Privacy p=PRIVATE):
-	privacy(p),
-	memberName(member_name),
-	className(class_name) {}
+
+Member::Member( const std::string & member_name , const std::string & class_name , Privacy p ):privacy( p ) ,
+memberName( member_name ) ,
+className( class_name )
+{
+
+}
 
 Member::~Member() {}
 

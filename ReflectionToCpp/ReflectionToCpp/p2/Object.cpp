@@ -8,6 +8,7 @@ Object::Object(Class* creator):klass(creator),fields() {
 		for ( FieldList::iterator it = fieldsList.begin(); it != fieldsList.end(); ++it ) {
 			if ( !it->isStatic() ) {
 				Field* copy = new Field( *it );
+				copy->setInstanceToField( this );
 				FieldMapPair pair( it->name() , copy );
 				fields.insert( pair );
 			}
@@ -70,5 +71,5 @@ Object::~Object() {
 bool Object::isAccessible() const {
 	//special case for Class object
 	if ( getClass() == nullptr ) return true;
-	return getClass()->isAccessible();
+	return canAccess;
 }

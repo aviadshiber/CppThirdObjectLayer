@@ -2,13 +2,13 @@
 #define MEMBER_H
 #include <string>
 
-
+enum Privacy { PUBLIC , PRIVATE , PROTECTED };
 /**
  * An abstract class that describe the members of a class.
  */
 class Member {
 public:
-	enum Privacy { PUBLIC , PRIVATE , PROTECTED };
+	
 
 	Member( const std::string & member_name , const std::string & class_name , Privacy p=PRIVATE );
 	//Member is an abstract Class so we make the destractor pure virtual

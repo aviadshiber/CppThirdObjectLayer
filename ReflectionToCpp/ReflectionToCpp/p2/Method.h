@@ -1,11 +1,11 @@
 
 #ifndef METHOD_H_
 #define METHOD_H_
-#include "Object.h"
-#include <string>
+#include "Member.h"
+class Object;
+typedef void( *Func )( Object* );
 
 
-typedef void(*Func)(Object*);
 /*
  * The Method class describes the method members in a class.
  */

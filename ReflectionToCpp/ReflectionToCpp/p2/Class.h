@@ -1,13 +1,16 @@
 #ifndef CLASS_H_
 #define CLASS_H_
+
+
+class Class;
+
+#include <string>
 #include "Object.h"
-#include "Field.h"
-#include <list>
 #include "Method.h"
+#include "Field.h"
 #include "ClassDS.h"
 
-
-class Class:public Object{
+class Class {
 
 public:
 	/**
@@ -15,14 +18,14 @@ public:
 	 * \param c the super class of that class.
 	 * \param name the name of the class.
 	 */
-	Class( Class* c , const std::string& name );
+	Class(Class* c, const std::string& name);
 
 	/**
 	 * \brief get the super class.
 	 * \return the super class.
 	 */
 	Class* getSuperClass() const;
-	
+
 	/**
 	 * \brief create a new instance of that class.
 	 * \return the new object that was created.
@@ -35,7 +38,7 @@ public:
 	 * \param func a function pointer to the function.
 	 */
 	void addMethod(std::string name, Func func);
-	
+
 	/**
 	 * \brief add a field to the class (instance field).
 	 * \param name the name of the field
@@ -63,7 +66,7 @@ public:
 	 * \param name the name of the field.
 	 * \return the original field that was found. if no field was found FieldNotFound exception will be thrown.
 	 */
-	Field* getOriginalField( std::string name );
+	Field* getOriginalField(std::string name);
 
 	/**
 	 * \brief the all the fields of the class (and all the fields from inherited classes)
@@ -77,47 +80,62 @@ public:
 	 */
 	std::list<Field> getStaticFields();
 
-	/**
-	 * \brief get a method with the name from the class (or from the classes which this class inherit from)
-	 * \param name the name of the method.
-	 * \return the method that was found. if no such method was found a MethodNotFound exception will be thrown.
-	 */
 	Method getMethod(std::string name);
 
-	/**
-	 * \brief retrive all the methods in the class  (and all the methods from inherited classes).
-	 * \return a list of all the methods.
-	 */
 	std::list<Method> getMethods();
 
-	
+
 	/**
 	 * \brief the the int value of a static field.
 	 * \param name the name of the field.
 	 * \return the integer value of the field. if no such field exist FieldNotFound exception will be thrown.
 	 */
-	int getInt(std::string name) override;
+	int getInt(std::string name);
 
 	/**
 	 * \brief set the int value of a static field.
 	 * \param name the name of the field.
 	 * \param value the integer value of the field. if no such field exist FieldNotFound exception will be thrown.
 	 */
-	void setInt(std::string name, int value) override;
+	void setInt(std::string name, int value);
 
-	Object* getObj(std::string name) override;
+	/**
+	 * \brief get the object value of field with name.
+	 * \param name the name of the field.
+	 * \return the object value.
+	 */
+	Object* getObj(std::string name);
 
-	void setObj(std::string name, Object* value) override;
-	
+	/**
+	 * \brief set the field with object value.
+	 * \param name the name of the field.
+	 * \param value the value to set.
+	 */
+	void setObj(std::string name, Object* value);
+
+
+	/**
+	 * \brief the name of the class.
+	 * \return the name of the class
+	 */
 	std::string name() const;
 
 	~Class();
 
+	/**
+	 * \brief setting the class to be accessible to private fields.
+	 * \param flag true/false value.
+	 */
 	static void setAccessible(bool flag);
 
+	/**
+	 * \brief 
+	 * \return 
+	 */
 	static bool isAccessible();
 
-	static Class* forName( std::string name );
+
+	static Class* forName(std::string name);
 private:
 	Class* parent;
 	std::string className;
@@ -130,48 +148,54 @@ private:
 	void addMember(std::string name, Member* member);
 
 	//generic lookups for all members
-	template<typename MEMBER>
+	template <typename MEMBER>
 	std::list<MEMBER> getMembersOfType() {
 		Class* currentClass = this;
 		std::list<MEMBER> list;
-		while ( nullptr != currentClass ) {
-			for ( auto it = currentClass->members.begin(); it != currentClass->members.end(); ++it ) {
+		while (nullptr != currentClass)
+		{
+			for (auto it = currentClass->members.begin(); it != currentClass->members.end(); ++it)
+			{
 				Member* member = it->second;
-				if ( instanceof<MEMBER>( member ) ) {
-					MEMBER * method = static_cast< MEMBER* >( member );
-					list.push_back( *method );
+				if (instanceof<MEMBER>(member))
+				{
+					MEMBER* method = static_cast<MEMBER*>(member);
+					list.push_back(*method);
 				}
 				currentClass = currentClass->getSuperClass();
 			}
 		}
 		return list;
 	}
-	template<class MEMBER,class MEMBER_NOT_FOUND_EXCEPTION>
-	MEMBER* getMember( std::string name ) {
+
+	template <class MEMBER, class MEMBER_NOT_FOUND_EXCEPTION>
+	MEMBER* getMember(std::string name) {
 		Member* member = nullptr;
 
 		Class* currentClass = this;
-		while ( currentClass != nullptr )
+		while (currentClass != nullptr)
 		{
-			MemberMap::iterator iterator_result = currentClass->members.find( name );
-			if ( iterator_result == currentClass->members.end() ) { currentClass = currentClass->getSuperClass(); }
-			else {
+			MemberMap::iterator iterator_result = currentClass->members.find(name);
+			if (iterator_result == currentClass->members.end()) { currentClass = currentClass->getSuperClass(); }
+			else
+			{
 				member = iterator_result->second;
 				break;
 			}
 		}
 
-		if ( currentClass != nullptr && instanceof<MEMBER>( member ) )
+		if (currentClass != nullptr && instanceof<MEMBER>(member))
 		{
-			MEMBER* castedMember = static_cast<MEMBER*>( member );
+			MEMBER* castedMember = static_cast<MEMBER*>(member);
 			return castedMember;
 		}
 
 		throw MEMBER_NOT_FOUND_EXCEPTION();
 	}
 
-	Field* fetchClassField( const std::string& fieldName );
+	Field* fetchClassField(const std::string& fieldName);
 
+	void updateInstancesAccess();
 };
 
 #endif /* CLASS_H_ */

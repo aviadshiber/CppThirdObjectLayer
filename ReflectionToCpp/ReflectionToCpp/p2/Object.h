@@ -1,8 +1,12 @@
 #ifndef OBJECT_H_
 #define OBJECT_H_
-#include<string>
-#include "Class.h"
+
 class Class;
+class Field;
+#include<string>
+#include "ClassDS.h"
+#include "Class.h"
+
 /**
  * The object class describe an object in this world.
  * The Class is the factory of that Object.
@@ -83,7 +87,7 @@ public:
 private:
 	Class* klass;
 	FieldMap fields;
-
+	bool canAccess;
 
 	/**
 	 * \brief find the field in the object, or a static field.

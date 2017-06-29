@@ -1,7 +1,8 @@
 #include "Class.h"
 
+bool Class::isAccessibleClass = false;
 
-Class::Class(Class* c, const std::string& name): Object(nullptr), parent(c), className(name), members(), classInstances() {
+Class::Class(Class* c, const std::string& name):parent(c), className(name), members(), classInstances() {
 	ClassMapPair pair(name, this);
 	classMap.insert(pair);
 }
@@ -29,6 +30,8 @@ void Class::addStaticField(std::string name, Type t) {
 	addMember(name, field);
 }
 
+
+
 void Class::addMember(std::string name, Member* member) {
 	ClassMemberPair pair(name, member);
 	members.insert(pair);
@@ -51,7 +54,13 @@ Class::~Class() {
 	}
 }
 
-void Class::setAccessible(bool flag) { isAccessibleClass = flag; }
+void Class::setAccessible(bool flag) {
+	isAccessibleClass = flag;
+	for(auto it=classMap.begin(); it!=classMap.end(); ++it ){
+		Class* currentClass = it->second;
+		
+	}
+}
 bool Class::isAccessible() { return isAccessibleClass; }
 
 Class* Class::forName(std::string name) {
@@ -96,10 +105,18 @@ void Class::setObj(std::string name, Object* value) {
 	field->setObj(this, value);
 }
 
+
+
 Field* Class::fetchClassField(const std::string& fieldName) {
 	Field* field = getOriginalField(fieldName);
 	//Class feilds are fields that are static. 
 	//if we found a field that can be setted/getted from class that is not static it means it is taken by non-static and should be considered as not found
 	if (!field->isStatic()) { throw FieldNotFound(); }
 	return field;
+}
+
+void Class::updateInstancesAccess() {
+	/*for ( auto it = this->classInstances.begin(); it != classInstances.end(); ++it ){
+	    
+	}*/
 }

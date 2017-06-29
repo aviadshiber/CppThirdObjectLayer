@@ -20,15 +20,15 @@ Object::Object(Class* creator):klass(creator),fields() {
 
 Class* Object::getClass() const { return this->klass; }
 
-int Object::getInt(std::string name) { return findField(name)->getInt(this); }
+int Object::getInt(string name) { return findField(name)->getInt(this); }
 
-void Object::setInt(std::string name, int value) { findField(name)->setInt(this, value); }
+void Object::setInt(string name, int value) { findField(name)->setInt(this, value); }
 
-Object* Object::getObj(std::string name) { return findField(name)->getObj(this); }
+Object* Object::getObj(string name) { return findField(name)->getObj(this); }
 
-void Object::setObj(std::string name, Object* value) { return findField(name)->setObj(this, value); }
+void Object::setObj(string name, Object* value) { return findField(name)->setObj(this, value); }
 
-Field* Object::findField(const std::string& name) {
+Field* Object::findField(const string& name) {
 	FieldMap::iterator iterator_result = fields.find(name);
 	if (iterator_result == fields.end()){
 		//field was not found in object,maybe it is a static field.. fetch it from the class
@@ -40,24 +40,24 @@ Field* Object::findField(const std::string& name) {
 	return iterator_result->second;
 }
 
-void Object::invokeMethod(std::string name) {
+void Object::invokeMethod(string name) {
 	this->canAccess = true;
 	Method method = getClass()->getMethod(name);
 	method.invoke(this);
 	this->canAccess = getClass()->isAccessible();
 }
 
-bool Object::isInstanceOf(std::string c) const {
+bool Object::isInstanceOf(string c) const {
 	if ( getClass() == nullptr ) return true;
 	return getClass()->name() == c;
 }
 
-bool Object::isKindOf(std::string c) const {
+bool Object::isKindOf(string c) const {
 	Class* parent = getClass();
 	//in case Class is the object
 	if ( parent == nullptr ) return true;
 
-	std::string name = parent->name();
+	string name = parent->name();
 	while (c != name && parent != nullptr){
 		name = parent->name();
 		parent = parent->getSuperClass();

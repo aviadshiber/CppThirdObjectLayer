@@ -8,12 +8,12 @@
 
 class Class;
 class Object;
-
+using namespace std;
 class Field:public Member {
 
 	
 public:
-	Field(std::string name, std::string className, Type t, bool isStatic);
+	Field(string name, string className, Type t, bool isStatic);
 	Type getType() const;
 	
 	void setInt(Object* obj, int value);

@@ -6,18 +6,19 @@
 class Class;
 
 
+
 #include <string>
 #include "Object.h"
 #include "Method.h"
 #include "Field.h"
+using namespace std;
 
+typedef unordered_map< string , Member* > MemberMap;
+typedef unordered_map< string , Class* > ClassMap;
+typedef pair< string , Member* > ClassMemberPair;
+typedef pair< string , Class* > ClassMapPair;
 
-typedef std::unordered_map< std::string , Member* > MemberMap;
-typedef std::unordered_map< std::string , Class* > ClassMap;
-typedef std::pair< std::string , Member* > ClassMemberPair;
-typedef std::pair< std::string , Class* > ClassMapPair;
-
-class ClassNotFound : public std::exception {};
+class ClassNotFound : public exception {};
 
 
 class Class {
@@ -28,7 +29,7 @@ public:
 	 * \param c the super class of that class.
 	 * \param name the name of the class.
 	 */
-	Class(Class* c, const std::string& name);
+	Class(Class* c, const string& name);
 
 	/**
 	 * \brief get the super class.
@@ -47,14 +48,14 @@ public:
 	 * \param name the name of the new method. 
 	 * \param func a function pointer to the function.
 	 */
-	void addMethod(std::string name, Func func);
+	void addMethod(string name, Func func);
 
 	/**
 	 * \brief add a field to the class (instance field).
 	 * \param name the name of the field
 	 * \param t the type of the field.
 	 */
-	void addInstanceField(std::string name, Type t);
+	void addInstanceField(string name, Type t);
 
 
 	/**
@@ -62,37 +63,37 @@ public:
 	 * \param name the name of the static field.
 	 * \param t the type of the field.
 	 */
-	void addStaticField(std::string name, Type t);
+	void addStaticField(string name, Type t);
 
 	/**
 	 * \brief get the field with the name.
 	 * \param name the name of the field.
 	 * \return a copy of the field . if no field was found FieldNotFound exception will be thrown.
 	 */
-	Field getField(std::string name);
+	Field getField(string name);
 
 	/**
 	 * \brief get the field with the name.
 	 * \param name the name of the field.
 	 * \return the original field that was found. if no field was found FieldNotFound exception will be thrown.
 	 */
-	Field* getOriginalField(std::string name);
+	Field* getOriginalField(string name);
 
 	/**
 	 * \brief the all the fields of the class (and all the fields from inherited classes)
 	 * \return a list of all the fields of the class.
 	 */
-	std::list<Field> getFields();
+	list<Field> getFields();
 
 	/**
 	 * \brief all the static fields of the class (and all the static fields from inherited classes).
 	 * \return a list of all the static fields of the class.
 	 */
-	std::list<Field> getStaticFields();
+	list<Field> getStaticFields();
 
-	Method getMethod(std::string name);
+	Method getMethod(string name);
 
-	std::list<Method> getMethods();
+	list<Method> getMethods();
 
 
 	/**
@@ -100,35 +101,35 @@ public:
 	 * \param name the name of the field.
 	 * \return the integer value of the field. if no such field exist FieldNotFound exception will be thrown.
 	 */
-	int getInt(std::string name);
+	int getInt(string name);
 
 	/**
 	 * \brief set the int value of a static field.
 	 * \param name the name of the field.
 	 * \param value the integer value of the field. if no such field exist FieldNotFound exception will be thrown.
 	 */
-	void setInt(std::string name, int value);
+	void setInt(string name, int value);
 
 	/**
 	 * \brief get the object value of field with name.
 	 * \param name the name of the field.
 	 * \return the object value.
 	 */
-	Object* getObj(std::string name);
+	Object* getObj(string name);
 
 	/**
 	 * \brief set the field with object value.
 	 * \param name the name of the field.
 	 * \param value the value to set.
 	 */
-	void setObj(std::string name, Object* value);
+	void setObj(string name, Object* value);
 
 
 	/**
 	 * \brief the name of the class.
 	 * \return the name of the class
 	 */
-	std::string name() const;
+	string name() const;
 
 	~Class();
 
@@ -145,17 +146,17 @@ public:
 	static bool isAccessible();
 
 
-	static Class* forName(std::string name);
+	static Class* forName(string name);
 private:
 	Class* parent;
-	std::string className;
+	string className;
 	//map of name->member
 	MemberMap members;
-	std::vector<Object*> classInstances;
+	vector<Object*> classInstances;
 	static bool isAccessibleClass;
 	static ClassMap classMap;
 
-	void addMember(std::string name, Member* member);
+	void addMember(string name, Member* member);
 
 
 	template<typename DYNAMIC_TYPE , typename STATIC_TYPE>
@@ -166,9 +167,9 @@ private:
 
 	//generic lookups for all members
 	template <typename MEMBER>
-	std::list<MEMBER> getMembersOfType() {
+	list<MEMBER> getMembersOfType() {
 		Class* currentClass = this;
-		std::list<MEMBER> list;
+		list<MEMBER> list;
 		while (nullptr != currentClass &&  currentClass->members.size()>0){
 
 			for (auto it = currentClass->members.begin(); it != currentClass->members.end(); ++it){
@@ -184,7 +185,7 @@ private:
 	}
 
 	template <class MEMBER, class MEMBER_NOT_FOUND_EXCEPTION>
-	MEMBER* getMember(std::string name) {
+	MEMBER* getMember(string name) {
 		Member* member = nullptr;
 
 		Class* currentClass = this;
@@ -208,7 +209,7 @@ private:
 		throw MEMBER_NOT_FOUND_EXCEPTION();
 	}
 
-	Field* fetchClassField(const std::string& fieldName);
+	Field* fetchClassField(const string& fieldName);
 
 	void updateInstancesAccess(bool flag);
 };

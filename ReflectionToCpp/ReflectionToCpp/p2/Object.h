@@ -7,10 +7,10 @@ class Object;
 #include<string>
 #include <unordered_map>
 #include "Class.h"
-
-typedef std::unordered_map< std::string , Field* >  FieldMap;
-typedef std::pair< std::string , Field* >  FieldMapPair;
-typedef std::list< Field > FieldList;
+using namespace std;
+typedef unordered_map< string , Field* >  FieldMap;
+typedef pair< string , Field* >  FieldMapPair;
+typedef list< Field > FieldList;
 
 /**
  * The object class describe an object in this world.
@@ -40,48 +40,48 @@ public:
 	 * \param name the name of field
 	 * \return the value of the field
 	 */
-	virtual int getInt(std::string name);
+	virtual int getInt(string name);
 
 	/**
 	 * \brief set the integer value from the object field.
 	 * \param name the name of field
 	 * \param value the value of the field
 	 */
-	virtual void setInt(std::string name, int value);
+	virtual void setInt(string name, int value);
 
 	/**
 	 * \brief get the Object* value from the object field.
 	 * \param name the name of the field.
 	 * \return pointer to the Object value of that field.
 	 */
-	virtual Object* getObj(std::string name);
+	virtual Object* getObj(string name);
 
 	/**
 	 * \brief set the object field with new value.
 	 * \param name  the name of the field.
 	 * \param value the value of the field.
 	 */
-	virtual void setObj(std::string name, Object* value);
+	virtual void setObj(string name, Object* value);
 
 	/**
 	 * \brief invoke a method of the object.
 	 * \param name the name of the object.
 	 */
-	virtual void invokeMethod(std::string name);
+	virtual void invokeMethod(string name);
 	
 	/**
 	 * \brief checks if that object is an instance of a class.
 	 * \param c the name of the class
 	 * \return true if it is an instance of a class, false otherwise.
 	 */
-	bool isInstanceOf(std::string c) const;
+	bool isInstanceOf(string c) const;
 	
 	/**
 	 * \brief checks if the object is an instance of the class, or one of the classes which inherit from that class. 
 	 * \param c 
 	 * \return 
 	 */
-	bool isKindOf(std::string c) const;
+	bool isKindOf(string c) const;
 
 	/**
 	 * \brief checks if the class allow the object to be accessible to none-public members.
@@ -100,7 +100,7 @@ private:
 	 * \param name the name of the field to look for.
 	 * \return the original field that was created in that object or class(if static).
 	 */
-	Field* findField(const std::string& name);
+	Field* findField(const string& name);
 	
 };
 

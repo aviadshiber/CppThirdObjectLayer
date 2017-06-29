@@ -1,7 +1,7 @@
 #include "Field.h"
 
 
-Field::Field(std::string name, std::string className, Type t, bool isStatic): Member(name, className, PRIVATE), fieldType(t), staticField(isStatic) ,fieldValue(),instance(nullptr){
+Field::Field(string name, string className, Type t, bool isStatic): Member(name, className, PRIVATE), fieldType(t), staticField(isStatic) ,fieldValue(),instance(nullptr){
 	if (staticField) { privacy = PUBLIC; }
 	fieldValue.number = 0; //same as NULL to object
 }

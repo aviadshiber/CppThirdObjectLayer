@@ -11,7 +11,7 @@ Object::Object(Class* creator):klass(creator),fields() {
 					Field* copy = new Field( *it );
 					copy->setInstanceToField( this );
 					FieldMapPair pair( it->name() , copy );
-					fields.insert( pair );
+					this->fields.insert( pair );
 				}
 			}
 		}

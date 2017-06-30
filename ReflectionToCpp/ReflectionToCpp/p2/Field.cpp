@@ -74,9 +74,6 @@ Field* Field::setInstanceToField(Object* obj) {
 	return this;
 }
 
-Field::~Field() {
-	delete fieldValue;
-}
 
 
 void Field::validateStaticField( Type t) const {

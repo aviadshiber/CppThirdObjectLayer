@@ -5,10 +5,17 @@
 #include <string>
 #include "Member.h"
 #include "Object.h"
+#include <memory>
 
 class Class;
 class Object;
 using namespace std;
+union Value {
+	Object* object;
+	int number;
+};
+typedef std::shared_ptr<Value> ValuePtr;
+
 class Field:public Member {
 
 	
@@ -34,15 +41,11 @@ public:
 
 	Field* setInstanceToField( Object* obj );
 
-	~Field();
 
 private:
 	Type fieldType;
 	bool staticField;
-	union Value { 
-	Object* object;
-	int number;
-	}*fieldValue;
+	ValuePtr fieldValue;
 	Object* instance;
 	void validateField( Object* obj , Type t ) const;
 	void validateStaticField(Type t) const;

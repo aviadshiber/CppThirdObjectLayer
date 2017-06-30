@@ -171,13 +171,14 @@ private:
 	list<MEMBER> getMembersOfType() {
 		Class* currentClass = this;
 		list<MEMBER> list;
-		while (nullptr != currentClass &&  currentClass->members.size()>0){
-
-			for (auto it = currentClass->members.begin(); it != currentClass->members.end(); ++it){
-				Member* member = it->second;
-				if (instanceof<MEMBER>(member)){
-					MEMBER* method = static_cast<MEMBER*>(member);
-					list.push_back(*method);
+		while (nullptr != currentClass){
+			if ( currentClass->members.size() > 0 ) {
+				for ( auto it = currentClass->members.begin(); it != currentClass->members.end(); ++it ) {
+					Member* member = it->second;
+					if ( instanceof<MEMBER>( member ) ) {
+						MEMBER* castedMember = static_cast< MEMBER* >( member );
+						list.push_back( *castedMember );
+					}
 				}
 			}
 			currentClass = currentClass->getSuperClass();

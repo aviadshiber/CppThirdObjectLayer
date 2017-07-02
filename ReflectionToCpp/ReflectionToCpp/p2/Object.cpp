@@ -40,10 +40,11 @@ Field* Object::findField(const string& name) {
 }
 
 void Object::invokeMethod(string name) {
+	bool accessCheckPoint = this->canAccess;
 	this->canAccess = true;
 	Method method = getClass()->getMethod(name);
 	method.invoke(this);
-	this->canAccess = getClass()->isAccessible();
+	this->canAccess = accessCheckPoint;
 }
 
 bool Object::isInstanceOf(string c) const {

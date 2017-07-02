@@ -30,12 +30,7 @@
 *.exe
 *.out
 *.app
-/ReflectionToCpp/ReflectionToCpp.VC.VC.opendb
-/ReflectionToCpp/ReflectionToCpp.VC.db
-/ReflectionToCpp/ReflectionToCpp/~AutoRecover.ReflectionToCpp.vcxproj
-/ReflectionToCpp/ReflectionToCpp/ReflectionToCpp.vcxproj.user
-/ReflectionToCpp/ReflectionToCpp/ReflectionToCpp.vcxproj.filters
-/ReflectionToCpp/ReflectionToCpp/ReflectionToCpp.vcxproj
+
 /ReflectionToCpp/ReflectionToCpp/Debug/ReflectionToCpp.tlog/unsuccessfulbuild
 /ReflectionToCpp/ReflectionToCpp/Debug/ReflectionToCpp.tlog/ReflectionToCpp.lastbuildstate
 /ReflectionToCpp/ReflectionToCpp/Debug/ReflectionToCpp.tlog/link.write.1.tlog

@@ -1,11 +1,12 @@
 #include "Class.h"
+#include <iostream>
 
 ClassMap Class::classMap;
 bool Class::isAccessibleClass = false;
 
 
 
-Class::Class(Class* c, const string& name):parent(c), className(name), members(), classInstances() {
+Class::Class(Class* c, const string name):parent(c), className(name), members(), classInstances() {
 	ClassMapPair pair(name, this);
 	classMap.insert(pair);
 }
@@ -59,6 +60,7 @@ Class::~Class() {
 			delete obj;
 		}
 	}
+	classMap.erase( this->className );
 }
 
 void Class::setAccessible(bool flag) {
@@ -66,6 +68,9 @@ void Class::setAccessible(bool flag) {
 	for(auto it=classMap.begin(); it!=classMap.end(); ++it ){
 		Class* currentClass = it->second;
 		currentClass->updateInstancesAccess( flag );
+		
+		cout << "class " << currentClass->name() << " is now accessible?" << flag << endl;;
+		
 	}
 }
 bool Class::isAccessible() { return isAccessibleClass; }

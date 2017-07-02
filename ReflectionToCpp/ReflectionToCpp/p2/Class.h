@@ -30,7 +30,7 @@ public:
 	 * \param c the super class of that class.
 	 * \param name the name of the class.
 	 */
-	Class(Class* c, const string& name);
+	Class(Class* c, const string name);
 
 	/**
 	 * \brief get the super class.

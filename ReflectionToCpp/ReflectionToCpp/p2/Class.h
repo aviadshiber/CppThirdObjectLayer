@@ -155,7 +155,9 @@ private:
 	MemberMap members;
 	vector<Object*> classInstances;
 	static bool isAccessibleClass;
-	static ClassMap classMap;
+	//static ClassMap classMap;
+
+	static ClassMap&  getClassMapInstance();
 
 	void addMember(string name, Member* member);
 

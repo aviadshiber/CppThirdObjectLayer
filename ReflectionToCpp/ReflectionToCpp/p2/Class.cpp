@@ -1,14 +1,22 @@
 #include "Class.h"
 #include <iostream>
 
-ClassMap Class::classMap = ClassMap();
+
+ClassMap & Class::getClassMapInstance()
+{
+	static ClassMap singletonMap;
+	return singletonMap;
+
+}
+
+//ClassMap Class::classMap = getClassMapInstance();
 bool Class::isAccessibleClass = false;
 
 
 
 Class::Class(Class* c, const string name):parent(c), className(name), members(), classInstances() {
 	ClassMapPair pair(name, this);
-	classMap.insert(pair);
+	getClassMapInstance().insert(pair);
 }
 
 Class* Class::getSuperClass() const { return this->parent; }
@@ -36,6 +44,8 @@ void Class::addStaticField(string name, Type t) {
 
 
 
+
+
 void Class::addMember(string name, Member* member) {
 	ClassMemberPair pair(name, member);
 	members.insert(pair);
@@ -60,12 +70,12 @@ Class::~Class() {
 			delete obj;
 		}
 	}
-	classMap.erase( this->className );
+	getClassMapInstance().erase( this->className );
 }
 
 void Class::setAccessible(bool flag) {
 	isAccessibleClass = flag;
-	for(auto it=classMap.begin(); it!=classMap.end(); ++it ){
+	for(auto it= getClassMapInstance().begin(); it!= getClassMapInstance().end(); ++it ){
 		Class* currentClass = it->second;
 		currentClass->updateInstancesAccess( flag );
 		//cout << "class " << currentClass->name() << " is now accessible?" << flag << endl;;
@@ -74,8 +84,8 @@ void Class::setAccessible(bool flag) {
 bool Class::isAccessible() { return isAccessibleClass; }
 
 Class* Class::forName(string name) {
-	ClassMap::const_iterator iterator_result = classMap.find(name);
-	return iterator_result == classMap.end() ? throw ClassNotFound() : iterator_result->second;
+	ClassMap::const_iterator iterator_result = getClassMapInstance().find(name);
+	return iterator_result == getClassMapInstance().end() ? throw ClassNotFound() : iterator_result->second;
 }
 
 

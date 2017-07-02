@@ -42,8 +42,23 @@ Field* Object::findField(const string& name) {
 void Object::invokeMethod(string name) {
 	bool accessCheckPoint = this->canAccess;
 	this->canAccess = true;
-	Method method = getClass()->getMethod(name);
-	method.invoke(this);
+	try{
+		Method method = getClass()->getMethod(name);
+		method.invoke( this );
+	}
+	catch ( TypeError& e ) {
+		this->canAccess = accessCheckPoint;
+		throw e;
+	}catch(MethodNotFound&e ){
+		this->canAccess = accessCheckPoint;
+		throw e;
+	}catch ( FieldNotFound& e ) {
+		this->canAccess = accessCheckPoint;
+		throw e;
+	}catch ( FieldNotAccessible& e ) {
+		this->canAccess = accessCheckPoint;
+		throw e;
+	}
 	this->canAccess = accessCheckPoint;
 }
 

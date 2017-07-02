@@ -1,7 +1,7 @@
 #include "Class.h"
 #include <iostream>
 
-ClassMap Class::classMap;
+ClassMap Class::classMap = ClassMap();
 bool Class::isAccessibleClass = false;
 
 

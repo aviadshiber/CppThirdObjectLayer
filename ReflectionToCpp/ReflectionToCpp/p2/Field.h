@@ -39,6 +39,8 @@ public:
 
 	Field* setInstanceToField( Object* obj );
 
+	Field* clone() const;
+
 
 private:
 	Type fieldType;

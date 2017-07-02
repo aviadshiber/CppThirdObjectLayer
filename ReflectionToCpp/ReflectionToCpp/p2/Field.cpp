@@ -1,8 +1,8 @@
 #include "Field.h"
 
 
-Field::Field(string name, string className, Type t, bool isStatic): Member(name, className, PRIVATE), fieldType(t), staticField(isStatic) ,fieldValue( new Value() ),instance(nullptr){
-	if (staticField) { privacy = PUBLIC; }
+Field::Field(string name, string className, Type t, bool isStatic): Member(name, className, PRIVATE,isStatic), fieldType(t) ,fieldValue( new Value() ),instance(nullptr){
+
 	fieldValue->number = 0; //same as NULL to object
 }
 
@@ -64,9 +64,6 @@ Object * Field::getObj() const
 	return fieldValue->object;
 }
 
-bool Field::isStatic() const {
-	return staticField;
-}
 
 Type Field::getFieldType() const { return fieldType; }
 Field* Field::setInstanceToField(Object* obj) {

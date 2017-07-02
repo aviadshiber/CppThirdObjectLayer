@@ -35,8 +35,6 @@ public:
 	Object* getObj(Object* obj) const;
 	Object* getObj() const;
 
-	bool isStatic() const;
-
 	Type getFieldType() const;
 
 	Field* setInstanceToField( Object* obj );
@@ -44,7 +42,6 @@ public:
 
 private:
 	Type fieldType;
-	bool staticField;
 	ValuePtr fieldValue;
 	Object* instance;
 	void validateField( Object* obj , Type t ) const;

@@ -10,20 +10,20 @@ class Member {
 public:
 	
 
-	Member( const string & member_name , const string & class_name , Privacy p=PRIVATE );
+	Member( const string & member_name , const string & class_name , Privacy p=PRIVATE ,bool isStatic=false);
 	//Member is an abstract Class so we make the destractor pure virtual
 	virtual ~Member() = 0;
 
 	virtual string name() const;
 	virtual string getDeclaringClass() const;
-
+	virtual bool isStatic() const;
 
 protected:
 	Privacy privacy;
 private:
 	string memberName;
 	string className;
-
+	bool staticMember;
 
 };
 

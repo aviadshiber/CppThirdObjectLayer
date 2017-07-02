@@ -78,7 +78,7 @@ public:
 	 * \param name the name of the field.
 	 * \return the original field that was found. if no field was found FieldNotFound exception will be thrown.
 	 */
-	Field* getOriginalField(string name);
+	Field* getOriginalField(string name, bool searchAll, bool isStatic);
 
 	/**
 	 * \brief the all the fields of the class (and all the fields from inherited classes)
@@ -187,7 +187,7 @@ private:
 	}
 
 	template <class MEMBER, class MEMBER_NOT_FOUND_EXCEPTION>
-	MEMBER* getMember(string name) {
+	MEMBER* getMember(string name,bool searchAll,bool staticMember) {
 		Member* member = nullptr;
 
 		Class* currentClass = this;
@@ -195,9 +195,14 @@ private:
 		{
 			MemberMap::iterator iterator_result = currentClass->members.find(name);
 			if (iterator_result == currentClass->members.end()) { currentClass = currentClass->getSuperClass(); }
-			else
-			{
+			else{
 				member = iterator_result->second;
+				if ( !searchAll ) { // do we need to search all, or just instance field/static fields?
+					if ( member->isStatic() != staticMember ) { //we did'nt really found the member so we keep looking
+						currentClass = currentClass->getSuperClass();
+						continue;
+					}
+				}
 				break;
 			}
 		}

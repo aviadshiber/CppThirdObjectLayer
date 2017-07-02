@@ -68,9 +68,7 @@ void Class::setAccessible(bool flag) {
 	for(auto it=classMap.begin(); it!=classMap.end(); ++it ){
 		Class* currentClass = it->second;
 		currentClass->updateInstancesAccess( flag );
-		
-		cout << "class " << currentClass->name() << " is now accessible?" << flag << endl;;
-		
+		//cout << "class " << currentClass->name() << " is now accessible?" << flag << endl;;
 	}
 }
 bool Class::isAccessible() { return isAccessibleClass; }
@@ -81,8 +79,8 @@ Class* Class::forName(string name) {
 }
 
 
-Field Class::getField(string name) { return *getOriginalField(name); }
-Field* Class::getOriginalField(string name) { return getMember<Field, FieldNotFound>(name); }
+Field Class::getField(string name) { return *getOriginalField(name,true, true); }
+Field* Class::getOriginalField(string name,bool searchAll,bool isStatic) { return getMember<Field, FieldNotFound>(name,searchAll,isStatic); }
 
 list<Field> Class::getFields() { return getMembersOfType<Field>(); }
 
@@ -93,7 +91,7 @@ list<Field> Class::getStaticFields() {
 	return staticFields;
 }
 
-Method Class::getMethod(string name) { return *getMember<Method, MethodNotFound>(name); }
+Method Class::getMethod(string name) { return *getMember<Method, MethodNotFound>(name,true,false); }
 
 list<Method> Class::getMethods() { return getMembersOfType<Method>(); }
 
@@ -120,10 +118,7 @@ void Class::setObj(string name, Object* value) {
 
 
 Field* Class::fetchClassField(const string& fieldName) {
-	Field* field = getOriginalField(fieldName);
-	//Class feilds are fields that are static. 
-	//if we found a field that can be setted/getted from class that is not static it means it is taken by non-static and should be considered as not found
-	if (!field->isStatic()) { throw FieldNotFound(); }
+	Field* field = getOriginalField(fieldName,false,true );
 	return field;
 }
 

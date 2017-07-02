@@ -1,7 +1,7 @@
 #include "Object.h"
 
 
-Object::Object(Class* creator):klass(creator),fields() {
+Object::Object(Class* creator):klass(creator),fields(),canAccess(false) {
 	if ( creator != nullptr ) {
 		FieldList fieldsList = creator->getFields();
 		//copy the fields of the creator until this point( that are not static)
@@ -15,6 +15,7 @@ Object::Object(Class* creator):klass(creator),fields() {
 				}
 			}
 		}
+		canAccess = creator->isAccessible();
 	}
 }
 
@@ -32,10 +33,8 @@ Field* Object::findField(const string& name) {
 	FieldMap::iterator iterator_result = fields.find(name);
 	if (iterator_result == fields.end()){
 		//field was not found in object,maybe it is a static field.. fetch it from the class
-		Field* field = klass->getOriginalField(name);
-		if (field->isStatic()) { return field; }
-		//if it is not a static field then we should not get it from class. the field was not found.
-		throw FieldNotFound();
+		Field* field = klass->getOriginalField(name,false,true );
+		return field; 
 	}
 	return iterator_result->second;
 }

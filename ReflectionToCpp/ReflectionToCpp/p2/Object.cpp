@@ -8,7 +8,7 @@ Object::Object(Class* creator):klass(creator),fields(),canAccess(false) {
 		if ( fieldsList.size() > 0 ) {
 			for ( FieldList::iterator it = fieldsList.begin(); it != fieldsList.end(); ++it ) {
 				if ( !it->isStatic() ) {
-					Field* copy = new Field( *it );
+					Field* copy = it->clone();
 					copy->setInstanceToField( this );
 					FieldMapPair pair( it->name() , copy );
 					this->fields.insert( pair );

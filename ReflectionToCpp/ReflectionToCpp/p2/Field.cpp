@@ -71,6 +71,10 @@ Field* Field::setInstanceToField(Object* obj) {
 	return this;
 }
 
+Field* Field::clone() const {
+	Field* field = new Field( this->name() , getDeclaringClass() , this->getType() , this->isStatic() );
+	return field;
+}
 
 
 void Field::validateStaticField( Type t) const {

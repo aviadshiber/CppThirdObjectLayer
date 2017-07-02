@@ -6439,7 +6439,7 @@ void familySaysCongratulations( Object* family ) {
 		}
 		member_family->invokeMethod( "MemberSaysThanks :)" );
 
-		family->setInt( "Members :)" , family->getInt( "Relatives :)" ) - 1 );
+		family->setInt( "Members :)" , family->getInt( "Members :)" ) - 1 );
 
 		family->invokeMethod( "Congratulations :)" );
 	}

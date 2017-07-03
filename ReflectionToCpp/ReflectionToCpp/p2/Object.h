@@ -1,5 +1,6 @@
 #ifndef OBJECT_H_
 #define OBJECT_H_
+#include <algorithm>
 
 class Class;
 class Field;
@@ -21,6 +22,8 @@ class Object {
 	friend class Class;
 public:
 	Object() = default;
+
+	
 	/**
 	 * \brief create an object from creator.
 	 * all the fields from the creator will be copied(that are not static).
@@ -102,7 +105,7 @@ private:
 	 * \return the original field that was created in that object or class(if static).
 	 */
 	Field* findField(const string& name);
-	
+	bool fieldDoesNotExist( const string& fieldName );
 };
 
 #endif /* OBJECT_H_ */

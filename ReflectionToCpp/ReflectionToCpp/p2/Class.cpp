@@ -2,14 +2,11 @@
 #include <iostream>
 
 
-ClassMap & Class::getClassMapInstance()
-{
+ClassMap & Class::getClassMapInstance(){
 	static ClassMap singletonMap;
 	return singletonMap;
-
 }
 
-//ClassMap Class::classMap = getClassMapInstance();
 bool Class::isAccessibleClass = false;
 
 
@@ -56,16 +53,14 @@ string Class::name() const { return this->className; }
 Class::~Class() {
 	//removing all class instances
 	if ( classInstances.size() > 0 ) {
-		for ( auto it = classInstances.begin(); it != classInstances.end(); ++it )
-		{
+		for ( auto it = classInstances.begin(); it != classInstances.end(); ++it ){
 			Object* obj = *it;
 			delete obj;
 		}
 	}
 	//removing all members
 	if ( members.size() > 0 ) {
-		for ( auto it = members.begin(); it != members.end(); ++it )
-		{
+		for ( auto it = members.begin(); it != members.end(); ++it ){
 			Member* member = it->second;
 			delete member;
 		}
@@ -79,7 +74,6 @@ void Class::setAccessible(bool flag) {
 	for(auto it= getClassMapInstance().begin(); it!= getClassMapInstance().end(); ++it ){
 		Class* currentClass = it->second;
 		currentClass->updateInstancesAccess( flag );
-		//cout << "class " << currentClass->name() << " is now accessible?" << flag << endl;;
 	}
 }
 bool Class::isAccessible() { return isAccessibleClass; }

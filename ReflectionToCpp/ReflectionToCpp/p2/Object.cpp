@@ -1,6 +1,10 @@
 #include "Object.h"
 
 
+
+
+bool Object::fieldDoesNotExist( const string & fieldName ){ return fields.find( fieldName ) == fields.end(); }
+
 Object::Object(Class* creator):klass(creator),fields(),canAccess(false) {
 	if ( creator != nullptr ) {
 		FieldList fieldsList = creator->getFields();
@@ -8,10 +12,14 @@ Object::Object(Class* creator):klass(creator),fields(),canAccess(false) {
 		if ( fieldsList.size() > 0 ) {
 			for ( FieldList::const_iterator it = fieldsList.begin(); it != fieldsList.end(); ++it ) {
 				if ( !it->isStatic() ) {
-					Field* copy = it->clone();
-					copy->setInstanceToField( this );
-					FieldMapPair pair( it->name() , copy );
-					this->fields.insert( pair );
+					string fieldName = it->name();
+					// if multiple fields exist in the list with the same name we should add only the first one.
+					if ( fieldDoesNotExist( fieldName ) ) {
+						Field* copy = it->clone();
+						copy->setInstanceToField( this );
+						FieldMapPair pair( fieldName , copy );
+						this->fields.insert( pair );
+					}
 				}
 			}
 		}

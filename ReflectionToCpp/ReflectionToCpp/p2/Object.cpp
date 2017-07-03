@@ -6,7 +6,7 @@ Object::Object(Class* creator):klass(creator),fields(),canAccess(false) {
 		FieldList fieldsList = creator->getFields();
 		//copy the fields of the creator until this point( that are not static)
 		if ( fieldsList.size() > 0 ) {
-			for ( FieldList::iterator it = fieldsList.begin(); it != fieldsList.end(); ++it ) {
+			for ( FieldList::const_iterator it = fieldsList.begin(); it != fieldsList.end(); ++it ) {
 				if ( !it->isStatic() ) {
 					Field* copy = it->clone();
 					copy->setInstanceToField( this );

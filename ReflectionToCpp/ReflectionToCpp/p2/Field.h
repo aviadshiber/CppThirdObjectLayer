@@ -14,7 +14,8 @@ union Value {
 	Object* object;
 	int number;
 };
-typedef std::shared_ptr<Value> ValuePtr;
+typedef shared_ptr<Value> ValuePtr;
+
 
 class Field:public Member {
 
@@ -40,6 +41,8 @@ public:
 	Field* setInstanceToField( Object* obj );
 
 	Field* clone() const;
+
+	virtual ~Field();
 
 
 private:

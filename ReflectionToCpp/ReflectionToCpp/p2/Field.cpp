@@ -1,8 +1,8 @@
 #include "Field.h"
 
 
-Field::Field(string name, string className, Type t, bool isStatic): Member(name, className, PRIVATE,isStatic), fieldType(t) ,fieldValue( new Value() ),instance(nullptr){
-
+Field::Field(string name, string className, Type t, bool isStatic): Member(name, className, PRIVATE,isStatic), fieldType(t) ,fieldValue(nullptr ),instance(nullptr){
+	fieldValue = std::make_shared< Value >();
 	fieldValue->number = 0; //same as NULL to object
 }
 
@@ -72,9 +72,11 @@ Field* Field::setInstanceToField(Object* obj) {
 }
 
 Field* Field::clone() const {
-	Field* field = new Field( this->name() , getDeclaringClass() , this->getType() , this->isStatic() );
+	auto field = new Field( this->name() , getDeclaringClass() , this->getType() , this->isStatic() );
 	return field;
 }
+
+Field::~Field() {}
 
 
 void Field::validateStaticField( Type t) const {

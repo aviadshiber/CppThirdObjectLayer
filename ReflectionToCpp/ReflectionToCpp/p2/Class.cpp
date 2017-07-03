@@ -54,14 +54,6 @@ void Class::addMember(string name, Member* member) {
 string Class::name() const { return this->className; }
 
 Class::~Class() {
-	//removing all members
-	if ( members.size() > 0 ) {
-		for ( auto it = members.begin(); it != members.end(); ++it )
-		{
-			Member* member = it->second;
-			delete member;
-		}
-	}
 	//removing all class instances
 	if ( classInstances.size() > 0 ) {
 		for ( auto it = classInstances.begin(); it != classInstances.end(); ++it )
@@ -70,6 +62,15 @@ Class::~Class() {
 			delete obj;
 		}
 	}
+	//removing all members
+	if ( members.size() > 0 ) {
+		for ( auto it = members.begin(); it != members.end(); ++it )
+		{
+			Member* member = it->second;
+			delete member;
+		}
+	}
+	
 	getClassMapInstance().erase( this->className );
 }
 
